@@ -48,26 +48,30 @@ nav {
     flex-direction: column;
     align-items: center;
     width: 90vw;
-    height: 35vh;
+    height: 40vh;
     border-radius: 10px;
     font-size: 13px;
     box-shadow: 0 4px 8px rgba(19,41,104,.1);
     background-color: white;
-    
+    padding-top: 1.2rem;
+    .trip_details {
+        width: 90%;
+        display: flex;
+        margin-bottom: 0.5rem;
+        color: $input_active_color;
+        font-family: "Roboto-Bold", Arial, Helvetica, sans-serif;
+        svg {
+            margin-left: 0.25rem;
+        }
+        .trip_type {
+            margin-right: 0.5rem;
+        }
+    }
     .container {
         width: 90%;
         display: flex;
         flex-direction: column;
         padding: 1.2rem;
-        .trip_details {
-            display: flex;
-            margin-bottom: 0.5rem;
-            color: $input_active_color;
-            font-family: "Roboto-Bold", Arial, Helvetica, sans-serif;
-            .trip_type {
-                margin-right: 0.5rem;
-            }
-        }
         .trip_from, .trip_to, .date {
             align-self: center;
             align-items: center;
@@ -87,11 +91,15 @@ nav {
             input {
                 margin-left: 0.5rem;
                 margin-right: 0.5rem;
-                width: 75%;
+                width: 90%;
                 height: 90%;
             }
             svg {
                 margin-left: 0.8rem;
+            }
+            .svg_up_down {
+                margin-left: 0;
+                margin-right: 0.8rem;
             }
         }
         .date {
@@ -104,8 +112,9 @@ nav {
                 input {
                     margin-left: 0.5rem;
                     margin-right: 0.5rem;
-                    width: 70%;
+                    width: 60%;
                     height: 90%;
+                    font-size: 13px;
                 }
             }
             svg {
@@ -123,28 +132,161 @@ nav {
             color: white;
             font-family: "Roboto-Bold";
             margin-bottom: 1.5rem;
+            border: none;
+            border-radius: 7.5px;
+            transition: all 250ms ease;
+            &:hover {
+                background-color: lighten($button_color, $amount: 5);
+                cursor: pointer;
+            }
         }
-        .toggle_accomodation {
+    }
+    .toggle_accomodation {
+        width: 90%;
+        display: flex;
+        color: $input_active_color;
+        font-family: "Roboto-Bold";
+        .toggle_button {
+            min-width: 2rem;
+            min-height: 1.25rem;
+            background-color: $toggle_background;
+            border-radius: 100px;
             display: flex;
-            color: $input_active_color;
-            font-family: "Roboto-Bold";
-            .toggle_button {
-                min-width: 2rem;
-                background-color: $toggle_background;
+            align-items: center;
+            justify-content: right;
+            margin-right: 0.5rem;
+            .toggle_circle {
+                margin-left: 0.2rem;
+                margin-right: 0.2rem;
+                width: 0.8rem;
+                height: 0.8rem;
                 border-radius: 100px;
-                display: flex;
-                align-items: center;
-                justify-content: right;
+                background-color: white;
+            }
+        }
+    }
+}
+
+// TABLET MEDIA QUERIES
+
+@media (min-width: 768px) {
+    nav {
+        position: absolute;
+        top: 10%;
+        align-self: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 90vw;
+        height: 25vh;
+        border-radius: 10px;
+        font-size: 13px;
+        box-shadow: 0 4px 8px rgba(19,41,104,.1);
+        background-color: white;
+        padding-top: 0;
+        .trip_details {
+            width: 90%;
+            display: flex;
+            margin-bottom: 0.5rem;
+            color: $input_active_color;
+            font-family: "Roboto-Bold", Arial, Helvetica, sans-serif;
+            svg {
+                margin-left: 0.25rem;
+            }
+            .trip_type {
                 margin-right: 0.5rem;
-                .toggle_circle {
-                    margin-left: 0.2rem;
-                    margin-right: 0.2rem;
-                    width: 0.8rem;
-                    height: 0.8rem;
-                    border-radius: 100px;
-                    background-color: white;
+            }
+        }
+        .container {
+            width: 90%;
+            display: flex;
+            flex-direction: row;
+            padding: 1.2rem;
+            justify-content: center;
+            .trip_from, .trip_to, .date {
+                align-self: center;
+                align-items: center;
+                display: flex;
+                height: 5vh;
+                margin-bottom: 0;
+                border-radius: 7px;
+                background-color: $input_background_color;
+                margin-right: 1rem;
+                input {
+                    border: none;
+                    height: 90%;
+                    background-color: $input_background_color;
+                }
+            }
+            .trip_from, .trip_to {
+                width: 25%;
+                input {
+                    margin-left: 0.5rem;
+                    margin-right: 0.5rem;
+                    width: 90%;
+                    height: 90%;
+                }
+                svg {
+                    margin-left: 0.8rem;
+                }
+                .svg_up_down {
+                    margin-left: 0;
+                    margin-right: 0.8rem;
+                }
+            }
+            .date {
+                width: 30%;
+                flex-direction: row;
+                align-items: center;
+                .date_from, .date_to {
+                    align-items: center;
+                    height: 100%;
+                    width: 49%;
+                    input {
+                        margin-left: 0.5rem;
+                        margin-right: 0.5rem;
+                        width: 40%;
+                        height: 90%;
+                        font-size: 13px;
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                    }
+                }
+                svg {
+                    margin-left: 0.8rem;
+                }
+                .separation_bar {
+                    min-height: 50%;
+                    min-width: 1px;
+                    background-color: $icon_color;
+                }
+            }
+            button {
+                background-color: $button_color;
+                width: 20%;
+                height: 5vh;
+                color: white;
+                font-family: "Roboto-Bold";
+                margin-bottom: 0;
+                border: none;
+                border-radius: 7.5px;
+                transition: all 250ms ease;
+                &:hover {
+                    background-color: lighten($button_color, $amount: 5);
+                    cursor: pointer;
                 }
             }
         }
+    }
+};
+
+
+// DESKTOP MEDIA QUERIES 
+
+@media (min-width: 1024px) {
+    nav {
+        width: 80vw;
     }
 }

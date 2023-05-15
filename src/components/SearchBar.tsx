@@ -6,8 +6,7 @@ import {faCircleDot, faChevronDown, faChevronUp, faArrowsUpDown, faLocationDot, 
 export const SearchBar = () => {
   return (
     <nav>
-      <div className='container'>
-        <div className='trip_details'>
+      <div className='trip_details'>
         <div className='trip_type'>
             <span>One-way</span>
             <FontAwesomeIcon icon={faChevronDown} />
@@ -17,10 +16,11 @@ export const SearchBar = () => {
             <FontAwesomeIcon icon={faChevronDown} />
           </div>
         </div>
+      <div className='container'>
         <div className='trip_from'>
           <FontAwesomeIcon icon={faCircleDot} />
           <input type="text" />
-          <FontAwesomeIcon icon={faArrowsUpDown} />
+          <FontAwesomeIcon className='svg_up_down' icon={faArrowsUpDown} />
         </div>
         <div className="trip_to">
           <FontAwesomeIcon icon={faLocationDot} />
@@ -38,13 +38,13 @@ export const SearchBar = () => {
           </div>
         </div>
         <button>Search</button>
-        <div className="toggle_accomodation">
+      </div>
+      <div className="toggle_accomodation">
           <div className="toggle_button">
             <div className="toggle_circle"></div>
           </div>
           <span>Find my accomodation</span>
         </div>
-      </div>
     </nav>
   )
 }
