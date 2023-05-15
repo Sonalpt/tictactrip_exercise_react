@@ -6,6 +6,14 @@
   font-family: "Roboto-Bold";
   src: url(../fonts/Roboto/Roboto-Bold.ttf);
 }
+.empty_date {
+  color: #a1a9c3;
+}
+
+.full_date {
+  color: #132968;
+}
+
 svg {
   color: #A0A9C3;
   transform: scale(1.3);
@@ -15,6 +23,9 @@ input {
   color: #132968;
   font-family: "Roboto-Regular";
   font-size: 16px;
+}
+input:focus {
+  outline: none;
 }
 
 body {
@@ -75,11 +86,23 @@ nav .container .trip_from, nav .container .trip_to, nav .container .date {
   margin-bottom: 0.3rem;
   border-radius: 7px;
   background-color: #f1f2f6;
+  border: 0.1rem solid rgba(255, 255, 255, 0);
+}
+nav .container .trip_from:focus-within, nav .container .trip_to:focus-within, nav .container .date:focus-within {
+  border: 0.1rem solid #5E91CC;
 }
 nav .container .trip_from input, nav .container .trip_to input, nav .container .date input {
   border: none;
   height: 90%;
   background-color: #f1f2f6;
+}
+nav .container .trip_from, nav .container .trip_to {
+  border: 0.1rem solid rgba(255, 255, 255, 0);
+  transition: all 250ms ease;
+  flex-direction: row;
+}
+nav .container .trip_from:hover, nav .container .trip_to:hover {
+  border-color: #a1a9c3;
 }
 nav .container .trip_from input, nav .container .trip_to input {
   margin-left: 0.5rem;
@@ -94,21 +117,69 @@ nav .container .trip_from .svg_up_down, nav .container .trip_to .svg_up_down {
   margin-left: 0;
   margin-right: 0.8rem;
 }
+nav .container .trip_from .list_trip, nav .container .trip_to .list_trip {
+  display: flex;
+  justify-content: flex-start;
+  z-index: 1;
+  background-color: white;
+  color: red;
+  width: 50%;
+  margin-top: 0.5rem;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  border-radius: 7px;
+}
+nav .container .trip_from .list_trip ul, nav .container .trip_to .list_trip ul {
+  list-style: none;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+nav .container .trip_from .list_trip ul li, nav .container .trip_to .list_trip ul li {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  color: #132968;
+  height: 5vh;
+  margin: 0;
+}
+nav .container .trip_from .list_trip ul li svg, nav .container .trip_to .list_trip ul li svg {
+  color: #5E91CC;
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+nav .container .trip_from .list_trip ul li:hover, nav .container .trip_to .list_trip ul li:hover {
+  background-color: #f1f2f6;
+  cursor: pointer;
+}
 nav .container .date {
   flex-direction: row;
   align-items: center;
 }
 nav .container .date .date_from, nav .container .date .date_to {
+  display: flex;
   align-items: center;
   height: 100%;
-  width: 49%;
+  min-width: 49%;
+  border: 0.1rem solid rgba(255, 255, 255, 0);
+  transition: all 250ms ease;
 }
-nav .container .date .date_from input, nav .container .date .date_to input {
+nav .container .date .date_from span, nav .container .date .date_to span {
   margin-left: 0.5rem;
   margin-right: 0.5rem;
   width: 60%;
-  height: 90%;
   font-size: 13px;
+}
+nav .container .date .date_from:hover, nav .container .date .date_to:hover {
+  border: 0.1rem solid #a1a9c3;
+  cursor: pointer;
+}
+nav .container .date .date_from {
+  border-radius: 7px 0px 0px 7px;
+}
+nav .container .date .date_to {
+  border-radius: 0px 7px 7px 0px;
 }
 nav .container .date svg {
   margin-left: 0.8rem;
@@ -229,17 +300,19 @@ nav .toggle_accomodation .toggle_button .toggle_circle {
     width: 30%;
     flex-direction: row;
     align-items: center;
+    justify-content: space-between;
   }
   nav .container .date .date_from, nav .container .date .date_to {
+    display: flex;
     align-items: center;
     height: 100%;
-    width: 49%;
+    width: 48%;
+    white-space: nowrap;
   }
-  nav .container .date .date_from input, nav .container .date .date_to input {
-    margin-left: 0.5rem;
-    margin-right: 0.5rem;
-    width: 40%;
-    height: 90%;
+  nav .container .date .date_from span, nav .container .date .date_to span {
+    margin-left: 5%;
+    margin-right: 0;
+    min-width: 70%;
     font-size: 13px;
     white-space: nowrap;
     overflow: hidden;
@@ -247,6 +320,7 @@ nav .toggle_accomodation .toggle_button .toggle_circle {
   }
   nav .container .date svg {
     margin-left: 0.8rem;
+    max-width: 10%;
   }
   nav .container .date .separation_bar {
     min-height: 50%;
