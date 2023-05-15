@@ -127,25 +127,27 @@ nav {
                 justify-content: flex-start;
                 z-index: 1;
                 background-color: white;
-                color: red;
-                width: 50%;
+                width: 80%;
                 margin-top: 0.5rem;
                 box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
-                border-radius: 7px;
+                border-radius: 7px !important;
                 ul {
                     list-style: none;
                     list-style-type: none;
                     margin: 0;
                     padding: 0;
                     width: 100%;
+                    border-radius: 7px;
                     li {
+                        background-color: white;
                         width: 100%;
                         display: flex;
                         align-items: center;
                         font-size: 16px;
                         color: $input_active_color;
-                        height: 5vh;
+                        height: 7vh;
                         margin: 0;
+                        transition: all 150ms ease;
                         svg {
                             color: $toggle_background;
                             margin-left: 1rem;

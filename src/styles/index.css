@@ -122,11 +122,10 @@ nav .container .trip_from .list_trip, nav .container .trip_to .list_trip {
   justify-content: flex-start;
   z-index: 1;
   background-color: white;
-  color: red;
-  width: 50%;
+  width: 80%;
   margin-top: 0.5rem;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
-  border-radius: 7px;
+  border-radius: 7px !important;
 }
 nav .container .trip_from .list_trip ul, nav .container .trip_to .list_trip ul {
   list-style: none;
@@ -134,15 +133,18 @@ nav .container .trip_from .list_trip ul, nav .container .trip_to .list_trip ul {
   margin: 0;
   padding: 0;
   width: 100%;
+  border-radius: 7px;
 }
 nav .container .trip_from .list_trip ul li, nav .container .trip_to .list_trip ul li {
+  background-color: white;
   width: 100%;
   display: flex;
   align-items: center;
   font-size: 16px;
   color: #132968;
-  height: 5vh;
+  height: 7vh;
   margin: 0;
+  transition: all 150ms ease;
 }
 nav .container .trip_from .list_trip ul li svg, nav .container .trip_to .list_trip ul li svg {
   color: #5E91CC;
