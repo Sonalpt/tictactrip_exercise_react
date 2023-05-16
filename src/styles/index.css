@@ -214,21 +214,43 @@ nav .toggle_accomodation {
   color: #132968;
   font-family: "Roboto-Bold";
 }
-nav .toggle_accomodation .toggle_button {
+nav .toggle_accomodation .enabled {
+  transition: all 150ms ease;
+  background-color: #5E91CC !important;
   min-width: 2rem;
   min-height: 1.25rem;
-  background-color: #5E91CC;
   border-radius: 100px;
   display: flex;
   align-items: center;
-  justify-content: right;
   margin-right: 0.5rem;
+  justify-content: right !important;
 }
-nav .toggle_accomodation .toggle_button .toggle_circle {
+nav .toggle_accomodation .enabled .toggle_circle {
+  transition: all 150ms ease;
   margin-left: 0.2rem;
   margin-right: 0.2rem;
-  width: 0.8rem;
-  height: 0.8rem;
+  min-width: 0.8rem;
+  min-height: 0.8rem;
+  border-radius: 100px;
+  background-color: white;
+}
+nav .toggle_accomodation .toggle_button {
+  transition: all 150ms ease;
+  background-color: #a1a9c3;
+  min-width: 2rem;
+  min-height: 1.25rem;
+  border-radius: 100px;
+  display: flex;
+  align-items: center;
+  margin-right: 0.5rem;
+  justify-content: left;
+}
+nav .toggle_accomodation .toggle_button .toggle_circle {
+  transition: all 150ms ease;
+  margin-left: 0.2rem;
+  margin-right: 0.2rem;
+  min-width: 0.8rem;
+  min-height: 0.8rem;
   border-radius: 100px;
   background-color: white;
 }

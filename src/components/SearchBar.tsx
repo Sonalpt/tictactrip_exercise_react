@@ -64,6 +64,9 @@ export const SearchBar: React.FC = () => {
   const [isTripFromFocused, setIsTripFromFocused] = React.useState<boolean>(false);
   const [isTripToFocused, setIsTripToFocused] = React.useState<boolean>(false);
 
+  // le state pour gérer le toggle accomodation
+  const [isEnabled, setIsEnabled] = React.useState<boolean>(false);
+
   // des useRef pour gérer la position de la liste par rapport à l'input d'au dessus
   const inputTripFromRef = useRef<HTMLInputElement>(null)
   const inputTripToRef = useRef<HTMLInputElement>(null)
@@ -322,7 +325,8 @@ export const SearchBar: React.FC = () => {
         <button>Search</button>
       </div>
       <div className="toggle_accomodation">
-          <div className="toggle_button">
+          <div className={isEnabled ? "toggle_button enabled" : "toggle_button"} 
+            onClick={() => {isEnabled ? setIsEnabled(false) : setIsEnabled(true)}}>
             <div className="toggle_circle"></div>
           </div>
           <span>Find my accomodation</span>
