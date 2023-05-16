@@ -80,6 +80,9 @@ export const SearchBar: React.FC = () => {
     left: inputTripToRef.current && inputTripToRef.current.parentElement ? inputTripToRef.current.offsetLeft - inputTripToRef.current.parentElement.offsetLeft * 0.1 : 0,
   };
 
+  // state pour gérer les index des listes pour la navigation fléchée
+  const [selectedListItemIndex, setSelectedListItemIndex] = React.useState<number>(-1);
+
   // la gestion des state pour les focus des input, pour afficher ou non les listes
   const handleTripFromFocus = () => {
     if (isTripFromFocused) {
@@ -183,7 +186,62 @@ export const SearchBar: React.FC = () => {
       });
   }, [popularList.length < 1]);
 
-  
+  // les fonctions pour gérer la navigation par clavier pour les listes
+  const handleKeyDown = (event: React.KeyboardEvent) => {
+    if (isTripFromFocused) {
+      if (event.key === 'ArrowDown') {
+        event.preventDefault();
+        setSelectedListItemIndex((prevIndex) => Math.min(prevIndex + 1, popularList.length - 1));
+      } else if (event.key === 'ArrowUp') {
+        event.preventDefault();
+        setSelectedListItemIndex((prevIndex) => Math.max(prevIndex - 1, -1));
+      } else if (event.key === 'Enter') {
+        if (selectedListItemIndex >= 0 && selectedListItemIndex < popularList.length) {
+          const selectedCity = popularList[selectedListItemIndex];
+          setSelectedTripFrom(selectedCity.local_name);
+          setSelectedListItemIndex(-1);
+        }
+      }
+    }
+    if (isTripToFocused && selectedTripFrom !== "") {
+      if (event.key === 'ArrowDown') {
+        event.preventDefault();
+        setSelectedListItemIndex((prevIndex) => Math.min(prevIndex + 1, popularListFromCity.length - 1));
+      } else if (event.key === 'ArrowUp') {
+        event.preventDefault();
+        setSelectedListItemIndex((prevIndex) => Math.max(prevIndex - 1, -1));
+      } else if (event.key === 'Enter') {
+        if (selectedListItemIndex >= 0 && selectedListItemIndex < popularListFromCity.length) {
+          const selectedCity = popularListFromCity[selectedListItemIndex];
+          setSelectedTripTo(selectedCity.local_name);
+          setSelectedListItemIndex(-1);
+        }
+      }
+    } else if (isTripToFocused && selectedTripFrom == "") {
+      if (event.key === 'ArrowDown') {
+        event.preventDefault();
+        setSelectedListItemIndex((prevIndex) => Math.min(prevIndex + 1, popularList.length - 1));
+      } else if (event.key === 'ArrowUp') {
+        event.preventDefault();
+        setSelectedListItemIndex((prevIndex) => Math.max(prevIndex - 1, -1));
+      } else if (event.key === 'Enter') {
+        if (selectedListItemIndex >= 0 && selectedListItemIndex < popularList.length) {
+          const selectedCity = popularList[selectedListItemIndex];
+          setSelectedTripTo(selectedCity.local_name);
+          setSelectedListItemIndex(-1);
+        }
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (selectedListItemIndex >= 0 && selectedListItemIndex < popularList.length) {
+      const listElement = document.getElementById(`listItem${selectedListItemIndex}`);
+      if (listElement) {
+        listElement.scrollIntoView({ block: 'nearest' });
+      }
+    }
+  }, [selectedListItemIndex]);
 
   return (
     <nav>
@@ -202,18 +260,21 @@ export const SearchBar: React.FC = () => {
           <FontAwesomeIcon icon={faCircleDot} />
           <input type="text" placeholder='From: City, Station Or Airport' ref={inputTripFromRef} 
           onFocus={handleTripFromFocus} onBlur={handleTripFromFocus} 
-          onInput={handleTypingInTripFromInput} onChange={handleInputTripFromChange} value={selectedTripFrom} />
+          onInput={handleTypingInTripFromInput} onChange={handleInputTripFromChange} 
+          onKeyDown={handleKeyDown} value={selectedTripFrom} />
           <FontAwesomeIcon className='svg_up_down' icon={faArrowsUpDown} />
           {isTripFromFocused && (
         <div className='list_trip' style={listTripFromStyle}>
           <ul>
             {autocompletionList.length > 0 ? (autocompletionList.map((city, index) => (
-              <li key={index} onClick={() => handleListItemTripFromClick(city.local_name)}>
+              <li key={index} onClick={() => handleListItemTripFromClick(city.local_name)}
+              className={selectedListItemIndex === index ? 'selected' : ''} >
                 <FontAwesomeIcon icon={faLocationDot} />
                 <span>{city.local_name}</span>
                 </li>
             ))) : popularList.map((city, index) => (
-              <li key={index} onClick={() => handleListItemTripFromClick(city.local_name)}>
+              <li key={index} onClick={() => handleListItemTripFromClick(city.local_name)}
+              className={selectedListItemIndex === index ? 'selected' : ''} >
                 <FontAwesomeIcon icon={faLocationDot} />
                 <span>{city.local_name}</span>
                 </li>
@@ -225,17 +286,20 @@ export const SearchBar: React.FC = () => {
         <div className="trip_to">
           <FontAwesomeIcon icon={faLocationDot} />
           <input type="text" placeholder='To: City, Station Or Airport' ref={inputTripToRef} onFocus={handleTripToFocus} onBlur={handleTripToFocus} 
-          onChange={handleInputTripToChange} onInput={handleTypingInTripToInput} value={selectedTripTo}/>
+          onChange={handleInputTripToChange} onInput={handleTypingInTripToInput} 
+          onKeyDown={handleKeyDown} value={selectedTripTo}/>
           {isTripToFocused && (
         <div className='list_trip' style={listTripToStyle}>
           <ul>
             {popularListFromCity.length > 0 ? (popularListFromCity.map((city, index) => (
-              <li key={index} onClick={() => handleListItemTripToClick(city.local_name)}>
+              <li key={index} onClick={() => handleListItemTripToClick(city.local_name)}
+              className={selectedListItemIndex === index ? 'selected' : ''} >
                 <FontAwesomeIcon icon={faLocationDot} />
                 <span>{city.local_name}</span>
                 </li>
             ))) : popularList.map((city, index) => (
-              <li key={index} onClick={() => handleListItemTripToClick(city.local_name)}>
+              <li key={index} onClick={() => handleListItemTripToClick(city.local_name)}
+              className={selectedListItemIndex === index ? 'selected' : ''} >
                 <FontAwesomeIcon icon={faLocationDot} />
                 <span>{city.local_name}</span>
                 </li>

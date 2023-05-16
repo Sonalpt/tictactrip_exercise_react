@@ -127,6 +127,9 @@ nav .container .trip_from .list_trip, nav .container .trip_to .list_trip {
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
   border-radius: 7px !important;
 }
+nav .container .trip_from .list_trip .selected, nav .container .trip_to .list_trip .selected {
+  background-color: #f1f2f6;
+}
 nav .container .trip_from .list_trip ul, nav .container .trip_to .list_trip ul {
   list-style: none;
   list-style-type: none;
