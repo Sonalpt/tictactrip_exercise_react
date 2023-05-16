@@ -1,10 +1,12 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useRef, useEffect } from 'react';
 import axios, { AxiosResponse } from 'axios';
 import '../styles/index.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faCircleDot, faChevronDown, faArrowsUpDown, faLocationDot, faCalendar } from '@fortawesome/free-solid-svg-icons';
 
 export const SearchBar: React.FC = () => {
+
+  // Les interfaces pour les 3 API
 
   interface PopularCity {
     id: number;
@@ -55,14 +57,8 @@ export const SearchBar: React.FC = () => {
   const [popularListFromCity, setPopularListFromCity] = React.useState<PopularCityFromSomewhere[]>([]);
 
   // les states des textes des deux inputs
-  const [inputTripFromContent, setInputTripFromContent] = React.useState<string>();
-  const [selectedCity, setSelectedCity] = React.useState<string>("");
-
-  // un exemple de liste de villes avant de passer aux API
-  const exampleDestinationsArray : string[] = ["Paris, France", "Antibes, France", "Madrid, Espagne", 
-    "Seoul, Korée du sud", "Sydney, Australie", "Caire, Egypte", "Tokyo, Japon",
-    "Le Puy-En-velay, France", "Hong Kong, Chine", "Nouvelle Orléans, Etats-Unis"
-  ];
+  const [selectedTripFrom, setSelectedTripFrom] = React.useState<string>("");
+  const [selectedTripTo, setSelectedTripTo] = React.useState<string>("");
 
   // Les state pour les focus des input
   const [isTripFromFocused, setIsTripFromFocused] = React.useState<boolean>(false);
@@ -87,16 +83,24 @@ export const SearchBar: React.FC = () => {
   // la gestion des state pour les focus des input, pour afficher ou non les listes
   const handleTripFromFocus = () => {
     if (isTripFromFocused) {
-      setIsTripFromFocused(false);
+      setTimeout(() => {
+        setIsTripFromFocused(false);
       setAutocompletionList([])
+      }, 150);
     } else if (!isTripFromFocused)
      setIsTripFromFocused(true)
   }
   const handleTripToFocus = () => {
-    isTripToFocused ? setIsTripToFocused(false) : setIsTripToFocused(true);
-    if (inputTripFromContent != "" || null) {
+    if (isTripToFocused) {
+      setTimeout(() => {
+        setIsTripToFocused(false);
+      setAutocompletionList([])
+      }, 150);
+    } else if (!isTripToFocused)
+     setIsTripToFocused(true)
+    if (selectedTripFrom != "") {
       axios
-      .get(`https://api.comparatrip.eu/cities/popular/from/${inputTripFromContent}/5`)
+      .get(`https://api.comparatrip.eu/cities/popular/from/${selectedTripFrom}/5`)
       .then((response: AxiosResponse<any>) => {
         setPopularListFromCity(response.data);
       })
@@ -106,13 +110,15 @@ export const SearchBar: React.FC = () => {
     }
   }
 
+  // Les fonctions pour gérer les input onchange
+
   const handleTypingInTripFromInput = () => {
     if (inputTripFromRef.current) {
-      setInputTripFromContent(inputTripFromRef.current.value);
+      setSelectedTripFrom(inputTripFromRef.current.value);
     }
-    if (inputTripFromContent !== "") {
+    if (selectedTripFrom !== "") {
       axios
-      .get(`https://api.comparatrip.eu/cities/autocomplete/?q=${inputTripFromContent}`)
+      .get(`https://api.comparatrip.eu/cities/autocomplete/?q=${selectedTripFrom}`)
       .then((response: AxiosResponse<any>) => {
         setAutocompletionList(response.data);
       })
@@ -121,21 +127,48 @@ export const SearchBar: React.FC = () => {
       });
     }
     if (!inputTripFromRef.current?.value) {
-      setInputTripFromContent("");
+      setSelectedTripFrom("");
       setAutocompletionList([]);
     }
   }
 
-  const handleListItemClick = useCallback((text: string) => {
-    setInputTripFromContent(text)
-    console.log(inputTripFromContent)
-    if (inputTripFromRef.current && inputTripFromContent) {
-      inputTripFromRef.current.value = inputTripFromContent;
-      inputTripFromRef.current.focus();
-      console.log(inputTripFromRef.current.value)
+  const handleTypingInTripToInput = () => {
+    if (inputTripToRef.current) {
+      setSelectedTripTo(inputTripToRef.current.value);
     }
-    console.log(inputTripFromContent)
-  }, []);
+    if (selectedTripTo !== "") {
+      axios
+      .get(`https://api.comparatrip.eu/cities/autocomplete/?q=${selectedTripTo}`)
+      .then((response: AxiosResponse<any>) => {
+        setAutocompletionList(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    }
+    if (!inputTripFromRef.current?.value) {
+      setSelectedTripTo("");
+      setAutocompletionList([]);
+    }
+  }
+
+  const handleInputTripFromChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSelectedTripFrom(event.target.value);
+  };
+  const handleInputTripToChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSelectedTripTo(event.target.value);
+  };
+
+
+  // Les fonctions qui gèrent l'ajout du texte des listes dans les input
+  const handleListItemTripFromClick = (text: string) => {
+    setSelectedTripFrom(text)
+  };
+  const handleListItemTripToClick = (text: string) => {
+    setSelectedTripTo(text)
+  };
+
+  // Le useEffect qui va chercher la liste des villes les plus populaires
 
   useEffect(() => {
     axios
@@ -169,18 +202,18 @@ export const SearchBar: React.FC = () => {
           <FontAwesomeIcon icon={faCircleDot} />
           <input type="text" placeholder='From: City, Station Or Airport' ref={inputTripFromRef} 
           onFocus={handleTripFromFocus} onBlur={handleTripFromFocus} 
-          onInput={handleTypingInTripFromInput} value={selectedCity} />
+          onInput={handleTypingInTripFromInput} onChange={handleInputTripFromChange} value={selectedTripFrom} />
           <FontAwesomeIcon className='svg_up_down' icon={faArrowsUpDown} />
           {isTripFromFocused && (
         <div className='list_trip' style={listTripFromStyle}>
           <ul>
             {autocompletionList.length > 0 ? (autocompletionList.map((city, index) => (
-              <li key={index} onClick={() => handleListItemClick(city.local_name)}>
+              <li key={index} onClick={() => handleListItemTripFromClick(city.local_name)}>
                 <FontAwesomeIcon icon={faLocationDot} />
                 <span>{city.local_name}</span>
                 </li>
             ))) : popularList.map((city, index) => (
-              <li key={index}>
+              <li key={index} onClick={() => handleListItemTripFromClick(city.local_name)}>
                 <FontAwesomeIcon icon={faLocationDot} />
                 <span>{city.local_name}</span>
                 </li>
@@ -191,17 +224,18 @@ export const SearchBar: React.FC = () => {
         </div>
         <div className="trip_to">
           <FontAwesomeIcon icon={faLocationDot} />
-          <input type="text" placeholder='To: City, Station Or Airport' ref={inputTripToRef} onFocus={handleTripToFocus} onBlur={handleTripToFocus}/>
+          <input type="text" placeholder='To: City, Station Or Airport' ref={inputTripToRef} onFocus={handleTripToFocus} onBlur={handleTripToFocus} 
+          onChange={handleInputTripToChange} onInput={handleTypingInTripToInput} value={selectedTripTo}/>
           {isTripToFocused && (
         <div className='list_trip' style={listTripToStyle}>
           <ul>
             {popularListFromCity.length > 0 ? (popularListFromCity.map((city, index) => (
-              <li key={index}>
+              <li key={index} onClick={() => handleListItemTripToClick(city.local_name)}>
                 <FontAwesomeIcon icon={faLocationDot} />
                 <span>{city.local_name}</span>
                 </li>
             ))) : popularList.map((city, index) => (
-              <li key={index}>
+              <li key={index} onClick={() => handleListItemTripToClick(city.local_name)}>
                 <FontAwesomeIcon icon={faLocationDot} />
                 <span>{city.local_name}</span>
                 </li>
