@@ -101,6 +101,9 @@ body {
   font-family: "Roboto-Regular";
   color: #a1a9c3;
 }
+.passengers_discount_selection_container .passengers_discount_selection .person_container .count_disabled {
+  color: #a1a9c3 !important;
+}
 .passengers_discount_selection_container .passengers_discount_selection .person_container .count {
   display: flex;
   margin-right: 1rem;
@@ -110,6 +113,9 @@ body {
 .passengers_discount_selection_container .passengers_discount_selection .person_container .count span {
   font-size: 16px;
   font-family: "Roboto-Regular";
+}
+.passengers_discount_selection_container .passengers_discount_selection .person_container .count svg {
+  color: #5E91CC;
 }
 .passengers_discount_selection_container .passengers_discount_selection .person_container .count svg:hover {
   cursor: pointer;
@@ -391,7 +397,7 @@ nav .container .date .date_from, nav .container .date .date_to {
 nav .container .date .date_from span, nav .container .date .date_to span {
   margin-left: 0.5rem;
   margin-right: 0.5rem;
-  width: 60%;
+  width: 90%;
   font-size: 13px;
 }
 nav .container .date .date_from:hover, nav .container .date .date_to:hover {

@@ -106,6 +106,9 @@ body {
                     color: $input_placeholder_color;
                 }
             }
+            .count_disabled {
+                color: $input_placeholder_color !important;
+            }
             .count {
                 display: flex;
                 margin-right: 1rem;
@@ -116,6 +119,7 @@ body {
                     font-family: "Roboto-Regular";
                 }
                 svg {
+                    color: $toggle_background;
                     &:hover {
                         cursor: pointer;
                     }
@@ -397,7 +401,7 @@ nav {
                 span {
                     margin-left: 0.5rem;
                     margin-right: 0.5rem;
-                    width: 60%;
+                    width: 90%;
                     font-size: 13px;
                 }
                 &:hover {

@@ -105,6 +105,13 @@ export const SearchBar: React.FC = () => {
   // le state pour gérer l'affichage du détail des passagers
   const [isPassengersDetailsDisplayed, setIsPassengersDetailsDisplayed] = React.useState<boolean>(false);
 
+  // les différents states le total des passagers, le discount, puis le total pour chaque type de passager
+  const [totalPassagers, setTotalPassagers] = React.useState<number>(0);
+  const [discount, setDiscount] = React.useState<number>(0);
+  const [totalAdults, setTotalAdults] = React.useState<number>(0);
+  const [totalYouth, setTotalYouth] = React.useState<number>(0);
+  const [totalSeniors, setTotalSeniors] = React.useState<number>(0);
+
   // la gestion des state pour les focus des input, pour afficher ou non les listes
   const handleTripFromFocus = () => {
     if (isTripFromFocused) {
@@ -280,9 +287,9 @@ export const SearchBar: React.FC = () => {
                   <span className="age_range">26+ years</span>
                 </div>
                 <div className="count">
-                  <FontAwesomeIcon icon={faMinusCircle} />
-                  <span className="count_number">0</span>
-                  <FontAwesomeIcon icon={faPlusCircle} />
+                  <FontAwesomeIcon icon={faMinusCircle} className={totalAdults == 0 ? "count_disabled" : ""} onClick={() => {totalAdults == 0 ? setTotalAdults(totalAdults) : (setTotalAdults(totalAdults - 1), setTotalPassagers(totalPassagers - 1))}}/>
+                  <span className="count_number">{totalAdults}</span>
+                  <FontAwesomeIcon icon={faPlusCircle} onClick={() => {(setTotalAdults(totalAdults + 1), setTotalPassagers(totalPassagers + 1))}}/>
                 </div>
               </div>
               <div className="person_container">
@@ -291,9 +298,9 @@ export const SearchBar: React.FC = () => {
                   <span className="age_range">0-25 years</span>
                 </div>
                 <div className="count">
-                  <FontAwesomeIcon icon={faMinusCircle} />
-                  <span className="count_number">0</span>
-                  <FontAwesomeIcon icon={faPlusCircle} />
+                  <FontAwesomeIcon icon={faMinusCircle} className={totalYouth == 0 ? "count_disabled" : ""} onClick={() => {totalYouth == 0 ? setTotalYouth(totalYouth) : (setTotalYouth(totalYouth - 1), setTotalPassagers(totalPassagers - 1))}}/>
+                  <span className="count_number">{totalYouth}</span>
+                  <FontAwesomeIcon icon={faPlusCircle} onClick={() => {(setTotalYouth(totalYouth + 1), setTotalPassagers(totalPassagers + 1))}}/>
                 </div>
               </div>
               <div className="person_container">
@@ -302,9 +309,9 @@ export const SearchBar: React.FC = () => {
                   <span className="age_range">58+ years</span>
                 </div>
                 <div className="count">
-                  <FontAwesomeIcon icon={faMinusCircle} />
-                  <span className="count_number">0</span>
-                  <FontAwesomeIcon icon={faPlusCircle} />
+                  <FontAwesomeIcon icon={faMinusCircle} className={totalSeniors == 0 ? "count_disabled" : ""} onClick={() => {totalSeniors == 0 ? setTotalSeniors(totalSeniors) : (setTotalSeniors(totalSeniors - 1), setTotalPassagers(totalPassagers - 1))}}/>
+                  <span className="count_number">{totalSeniors}</span>
+                  <FontAwesomeIcon icon={faPlusCircle} onClick={() => {(setTotalSeniors(totalSeniors + 1), setTotalPassagers(totalPassagers + 1))}}/>
                 </div>
               </div>
               <div className="discount_container">
@@ -312,7 +319,7 @@ export const SearchBar: React.FC = () => {
                   <FontAwesomeIcon icon={faPercent} />
                   <span>Add discount card</span>
                 </div>
-                <div className="toggle_button">
+                <div className={discount ? "enabled" : "toggle_button"} onClick={() => {discount ? setDiscount(0) : setDiscount(1)}}>
                   <div className="toggle_circle"></div>
                 </div>
               </div>
@@ -342,11 +349,11 @@ export const SearchBar: React.FC = () => {
             <div className='passengers_details'>
               <div className="passengers_count" onClick={() => {setIsPassengersDetailsDisplayed(true)}}>
                 <FontAwesomeIcon icon={faUser} />
-                <span>1</span>
+                <span>{totalPassagers}</span>
               </div>
               <div className="discount_count" onClick={() => {setIsPassengersDetailsDisplayed(true)}}>
                 <FontAwesomeIcon icon={faPercent} />
-                <span>1</span>
+                <span>{discount}</span>
               </div>
             </div>
           </div>
