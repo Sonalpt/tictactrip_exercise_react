@@ -2,7 +2,7 @@ import React, { useRef, useEffect } from 'react';
 import axios, { AxiosResponse } from 'axios';
 import '../styles/index.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faCircleDot, faChevronDown, faArrowsUpDown, faLocationDot, faCalendar } from '@fortawesome/free-solid-svg-icons';
+import {faCircleDot, faChevronDown, faChevronUp, faArrowsUpDown, faLocationDot, faCalendar, faUser, faPercent, faCheck, faXmark, faPlusCircle, faMinusCircle } from '@fortawesome/free-solid-svg-icons';
 
 export const SearchBar: React.FC = () => {
 
@@ -71,6 +71,22 @@ export const SearchBar: React.FC = () => {
   const inputTripFromRef = useRef<HTMLInputElement>(null)
   const inputTripToRef = useRef<HTMLInputElement>(null)
 
+  // useRef pour gérer la position du type de voyage
+  const onewayRef = useRef<HTMLSpanElement>(null);
+
+  // le style pour la position du type de voyage
+  const tripdetailsStyle: React.CSSProperties = {
+    position: 'absolute',
+    top: onewayRef.current ? onewayRef.current.offsetTop + onewayRef.current.offsetHeight : 0,
+    left: onewayRef.current && onewayRef.current.parentElement ? onewayRef.current.offsetLeft : 0,
+  }
+
+  // le state pour gérer l'affichage du type de voyage
+  const [isTripTypeDisplayed, setIsTripTypeDisplayed] = React.useState<boolean>(false);
+
+  // le state pour gérer quel type de voyage est checké
+  const [tripTypechecked, setTripTypeChecked] = React.useState<number>(1);
+
   // le style pour la position des différentes listes
   const listTripFromStyle: React.CSSProperties = {
     position: 'absolute',
@@ -85,6 +101,9 @@ export const SearchBar: React.FC = () => {
 
   // state pour gérer les index des listes pour la navigation fléchée
   const [selectedListItemIndex, setSelectedListItemIndex] = React.useState<number>(-1);
+
+  // le state pour gérer l'affichage du détail des passagers
+  const [isPassengersDetailsDisplayed, setIsPassengersDetailsDisplayed] = React.useState<boolean>(false);
 
   // la gestion des state pour les focus des input, pour afficher ou non les listes
   const handleTripFromFocus = () => {
@@ -237,6 +256,7 @@ export const SearchBar: React.FC = () => {
     }
   };
 
+  // le useEffect qui va nous faire entrer dans la liste à l'aide du clavier
   useEffect(() => {
     if (selectedListItemIndex >= 0 && selectedListItemIndex < popularList.length) {
       const listElement = document.getElementById(`listItem${selectedListItemIndex}`);
@@ -247,90 +267,163 @@ export const SearchBar: React.FC = () => {
   }, [selectedListItemIndex]);
 
   return (
-    <nav>
-      <div className='trip_details'>
-        <div className='trip_type'>
-            <span>One-way</span>
-            <FontAwesomeIcon icon={faChevronDown} />
+    <>
+    {isPassengersDetailsDisplayed ? (<div className="passengers_discount_selection_container">
+            <div className="passengers_discount_selection">
+              <div className="passengers_title">
+                <span>Passengers</span>
+                <FontAwesomeIcon icon={faXmark} onClick={() => {setIsPassengersDetailsDisplayed(false)}}/>
+              </div>
+              <div className="person_container">
+                <div className="person_details">
+                  <span className="name">Adult</span>
+                  <span className="age_range">26+ years</span>
+                </div>
+                <div className="count">
+                  <FontAwesomeIcon icon={faMinusCircle} />
+                  <span className="count_number">0</span>
+                  <FontAwesomeIcon icon={faPlusCircle} />
+                </div>
+              </div>
+              <div className="person_container">
+                <div className="person_details">
+                  <span className="name">Youth</span>
+                  <span className="age_range">0-25 years</span>
+                </div>
+                <div className="count">
+                  <FontAwesomeIcon icon={faMinusCircle} />
+                  <span className="count_number">0</span>
+                  <FontAwesomeIcon icon={faPlusCircle} />
+                </div>
+              </div>
+              <div className="person_container">
+                <div className="person_details">
+                  <span className="name">Senior</span>
+                  <span className="age_range">58+ years</span>
+                </div>
+                <div className="count">
+                  <FontAwesomeIcon icon={faMinusCircle} />
+                  <span className="count_number">0</span>
+                  <FontAwesomeIcon icon={faPlusCircle} />
+                </div>
+              </div>
+              <div className="discount_container">
+                <div className="discount_card">
+                  <FontAwesomeIcon icon={faPercent} />
+                  <span>Add discount card</span>
+                </div>
+                <div className="toggle_button">
+                  <div className="toggle_circle"></div>
+                </div>
+              </div>
+              <div className="confirm">
+                <button onClick={() => {setIsPassengersDetailsDisplayed(false)}}>Confirm</button>
+              </div>
+            </div>
+          </div>) : null}
+          <nav>
+          <div className='trip_details'>
+            <div className='trip_type'>
+              <span ref={onewayRef} onClick={() => {isTripTypeDisplayed ? setIsTripTypeDisplayed(false) : setIsTripTypeDisplayed(true)}}>{tripTypechecked == 1 ? "One-way" : "Round trip"}</span>
+              <FontAwesomeIcon icon={isTripTypeDisplayed ? faChevronUp : faChevronDown} onClick={() => {isTripTypeDisplayed ? setIsTripTypeDisplayed(false) : setIsTripTypeDisplayed(true)}} />
+              {isTripTypeDisplayed ? (<div className="trip_type_choice" style={tripdetailsStyle}>
+                <div className={tripTypechecked == 1 ? "trip_type_checked" : "trip_type_unchecked"}
+                onClick={() => {tripTypechecked == 1 ? setTripTypeChecked(2) : setTripTypeChecked(1)}} >
+                  <FontAwesomeIcon icon={faCheck} />
+                  <span>One-way</span>
+                </div>
+                <div className={tripTypechecked == 2 ? "trip_type_checked" : "trip_type_unchecked"}
+                onClick={() => {tripTypechecked == 1 ? setTripTypeChecked(2) : setTripTypeChecked(1)}} >
+                  <FontAwesomeIcon icon={faCheck} />
+                  <span>Round trip</span>
+                </div>
+              </div>) : null}
+            </div>
+            <div className='passengers_details'>
+              <div className="passengers_count" onClick={() => {setIsPassengersDetailsDisplayed(true)}}>
+                <FontAwesomeIcon icon={faUser} />
+                <span>1</span>
+              </div>
+              <div className="discount_count" onClick={() => {setIsPassengersDetailsDisplayed(true)}}>
+                <FontAwesomeIcon icon={faPercent} />
+                <span>1</span>
+              </div>
+            </div>
           </div>
-          <div className='passengers_details'>
-            <span>1 adult, No discount card</span>
-            <FontAwesomeIcon icon={faChevronDown} />
+        <div className='container'>
+          <div className='trip_from'>
+            <FontAwesomeIcon icon={faCircleDot} />
+            <input type="text" placeholder='From: City, Station Or Airport' ref={inputTripFromRef} 
+            onFocus={handleTripFromFocus} onBlur={handleTripFromFocus} 
+            onInput={handleTypingInTripFromInput} onChange={handleInputTripFromChange} 
+            onKeyDown={handleKeyDown} value={selectedTripFrom} />
+            <FontAwesomeIcon className='svg_up_down' icon={faArrowsUpDown} />
+            {isTripFromFocused && (
+          <div className='list_trip' style={listTripFromStyle}>
+            <ul>
+              {autocompletionList.length > 0 ? (autocompletionList.map((city, index) => (
+                <li key={index} onClick={() => handleListItemTripFromClick(city.local_name)}
+                className={selectedListItemIndex === index ? 'selected' : ''} >
+                  <FontAwesomeIcon icon={faLocationDot} />
+                  <span>{city.local_name}</span>
+                  </li>
+              ))) : popularList.map((city, index) => (
+                <li key={index} onClick={() => handleListItemTripFromClick(city.local_name)}
+                className={selectedListItemIndex === index ? 'selected' : ''} >
+                  <FontAwesomeIcon icon={faLocationDot} />
+                  <span>{city.local_name}</span>
+                  </li>
+              ))}
+            </ul>
           </div>
-        </div>
-      <div className='container'>
-        <div className='trip_from'>
-          <FontAwesomeIcon icon={faCircleDot} />
-          <input type="text" placeholder='From: City, Station Or Airport' ref={inputTripFromRef} 
-          onFocus={handleTripFromFocus} onBlur={handleTripFromFocus} 
-          onInput={handleTypingInTripFromInput} onChange={handleInputTripFromChange} 
-          onKeyDown={handleKeyDown} value={selectedTripFrom} />
-          <FontAwesomeIcon className='svg_up_down' icon={faArrowsUpDown} />
-          {isTripFromFocused && (
-        <div className='list_trip' style={listTripFromStyle}>
-          <ul>
-            {autocompletionList.length > 0 ? (autocompletionList.map((city, index) => (
-              <li key={index} onClick={() => handleListItemTripFromClick(city.local_name)}
-              className={selectedListItemIndex === index ? 'selected' : ''} >
-                <FontAwesomeIcon icon={faLocationDot} />
-                <span>{city.local_name}</span>
-                </li>
-            ))) : popularList.map((city, index) => (
-              <li key={index} onClick={() => handleListItemTripFromClick(city.local_name)}
-              className={selectedListItemIndex === index ? 'selected' : ''} >
-                <FontAwesomeIcon icon={faLocationDot} />
-                <span>{city.local_name}</span>
-                </li>
-            ))}
-          </ul>
-        </div>
-      )}
-        </div>
-        <div className="trip_to">
-          <FontAwesomeIcon icon={faLocationDot} />
-          <input type="text" placeholder='To: City, Station Or Airport' ref={inputTripToRef} onFocus={handleTripToFocus} onBlur={handleTripToFocus} 
-          onChange={handleInputTripToChange} onInput={handleTypingInTripToInput} 
-          onKeyDown={handleKeyDown} value={selectedTripTo}/>
-          {isTripToFocused && (
-        <div className='list_trip' style={listTripToStyle}>
-          <ul>
-            {popularListFromCity.length > 0 ? (popularListFromCity.map((city, index) => (
-              <li key={index} onClick={() => handleListItemTripToClick(city.local_name)}
-              className={selectedListItemIndex === index ? 'selected' : ''} >
-                <FontAwesomeIcon icon={faLocationDot} />
-                <span>{city.local_name}</span>
-                </li>
-            ))) : popularList.map((city, index) => (
-              <li key={index} onClick={() => handleListItemTripToClick(city.local_name)}
-              className={selectedListItemIndex === index ? 'selected' : ''} >
-                <FontAwesomeIcon icon={faLocationDot} />
-                <span>{city.local_name}</span>
-                </li>
-            ))}
-          </ul>
-        </div>
-      )}
-        </div>
-        <div className="date">
-          <div className="date_from">
-            <FontAwesomeIcon icon={faCalendar} />
-            <span className='empty_date'>+ Add departure</span>
+        )}
           </div>
-          <div className="separation_bar"></div>
-          <div className="date_to">
-            <FontAwesomeIcon icon={faCalendar} />
-            <span className='empty_date'>+ Add return</span>
+          <div className="trip_to">
+            <FontAwesomeIcon icon={faLocationDot} />
+            <input type="text" placeholder='To: City, Station Or Airport' ref={inputTripToRef} onFocus={handleTripToFocus} onBlur={handleTripToFocus} 
+            onChange={handleInputTripToChange} onInput={handleTypingInTripToInput} 
+            onKeyDown={handleKeyDown} value={selectedTripTo}/>
+            {isTripToFocused && (
+          <div className='list_trip' style={listTripToStyle}>
+            <ul>
+              {popularListFromCity.length > 0 ? (popularListFromCity.map((city, index) => (
+                <li key={index} onClick={() => handleListItemTripToClick(city.local_name)}
+                className={selectedListItemIndex === index ? 'selected' : ''} >
+                  <FontAwesomeIcon icon={faLocationDot} />
+                  <span>{city.local_name}</span>
+                  </li>
+              ))) : popularList.map((city, index) => (
+                <li key={index} onClick={() => handleListItemTripToClick(city.local_name)}
+                className={selectedListItemIndex === index ? 'selected' : ''} >
+                  <FontAwesomeIcon icon={faLocationDot} />
+                  <span>{city.local_name}</span>
+                  </li>
+              ))}
+            </ul>
           </div>
-        </div>
-        <button>Search</button>
-      </div>
-      <div className="toggle_accomodation">
-          <div className={isEnabled ? "toggle_button enabled" : "toggle_button"} 
-            onClick={() => {isEnabled ? setIsEnabled(false) : setIsEnabled(true)}}>
-            <div className="toggle_circle"></div>
+        )}
           </div>
-          <span>Find my accomodation</span>
+          <div className="date">
+            <div className="date_from">
+              <FontAwesomeIcon icon={faCalendar} />
+              <span className='empty_date'>+ Add departure</span>
+            </div>
+            <div className="separation_bar"></div>
+            <div className="date_to">
+              <FontAwesomeIcon icon={faCalendar} />
+              <span className='empty_date'>+ Add return</span>
+            </div>
+          </div>
+          <button>Search</button>
         </div>
-    </nav>
+        <div className="toggle_accomodation">
+            <div className={isEnabled ? "toggle_button enabled" : "toggle_button"} 
+              onClick={() => {isEnabled ? setIsEnabled(false) : setIsEnabled(true)}}>
+              <div className="toggle_circle"></div>
+            </div>
+            <span>Find my accomodation</span>
+          </div>
+      </nav>
+    </>
   )
 }

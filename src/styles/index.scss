@@ -51,6 +51,166 @@ body {
     align-items: center;
 }
 
+.passengers_discount_selection_container {
+    z-index: 3;
+    position: absolute;
+    top: 0%;
+    background-color: rgba(0, 0, 0, 0.3);
+    height: 100vh;
+    width: 100vw;
+    .passengers_discount_selection {
+        width: 100%;
+        height: 100%;
+        background-color: white;
+        display: flex;
+        flex-direction: column;
+        .passengers_title {
+            width: 100%;
+            height: 8vh;
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 0.1rem solid $input_background_color;
+            align-items: center;
+            span {
+                margin-left: 1rem;
+                font-size: 16px;
+                font-family: "Roboto-Bold";
+                color: $input_active_color;
+            }
+            svg {
+                margin-right: 1rem;
+                &:hover {
+                    cursor: pointer;
+                }
+            }
+        }
+        .person_container {
+            width: 100%;
+            height: 8vh;
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 0.1rem solid $input_background_color;
+            align-items: center;
+            .person_details {
+                display: flex;
+                flex-direction: column;
+                margin-left: 1rem;
+                .name {
+                    font-size: 16px;
+                    font-family: "Roboto-Bold";
+                    color: $input_active_color;
+                }
+                .age_range {
+                    font-size: 13px;
+                    font-family: "Roboto-Regular";
+                    color: $input_placeholder_color;
+                }
+            }
+            .count {
+                display: flex;
+                margin-right: 1rem;
+                justify-content: space-between;
+                width: 20%;
+                span {
+                    font-size: 16px;
+                    font-family: "Roboto-Regular";
+                }
+                svg {
+                    &:hover {
+                        cursor: pointer;
+                    }
+                }
+            }
+        }
+        .discount_container {
+            width: 100%;
+            height: 61vh;
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 0.1rem solid $input_background_color;
+            margin-top: 1rem;
+            .discount_card {
+                align-items: center;
+                margin-left: 1rem;
+                svg {
+                    margin-right: 0.8rem;
+                    color: $input_active_color;
+                }
+            }
+            .enabled {
+                transition: all 150ms ease;
+                background-color: $toggle_background !important;
+                min-width: 2rem;
+                min-height: 1.25rem;
+                max-height: 1.25rem;
+                border-radius: 100px;
+                display: flex;
+                align-items: center;
+                margin-right: 1rem;
+                justify-content: right !important;
+                &:hover {
+                    cursor: pointer;
+                }
+                .toggle_circle {
+                    transition: all 150ms ease;
+                    margin-left: 0.2rem;
+                    margin-right: 0.2rem;
+                    min-width: 0.8rem;
+                    min-height: 0.8rem;
+                    border-radius: 100px;
+                    background-color: white;
+                }
+            }
+            .toggle_button {
+                transition: all 150ms ease;
+                background-color: $input_placeholder_color;
+                min-width: 2rem;
+                min-height: 1.25rem;
+                max-height: 1.25rem;
+                border-radius: 100px;
+                display: flex;
+                align-items: center;
+                margin-right: 1rem;
+                justify-content: left;
+                &:hover {
+                    cursor: pointer;
+                }
+                .toggle_circle {
+                    transition: all 150ms ease;
+                    margin-left: 0.2rem;
+                    margin-right: 0.2rem;
+                    min-width: 0.8rem;
+                    min-height: 0.8rem;
+                    border-radius: 100px;
+                    background-color: white;
+                }
+            }
+        }
+        .confirm {
+            height: 7vh;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            button {
+                background-color: $button_color;
+                height: 80%;
+                width: 90%;
+                color: white;
+                font-family: "Roboto-Bold";
+                border: none;
+                border-radius: 7.5px;
+                transition: all 250ms ease;
+                &:hover {
+                    background-color: lighten($button_color, $amount: 5);
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+}
+
 nav {
     position: absolute;
     top: 10%;
@@ -68,14 +228,74 @@ nav {
     .trip_details {
         width: 90%;
         display: flex;
+        justify-content: space-between;
+        align-items: center;
         margin-bottom: 0.5rem;
         color: $input_active_color;
         font-family: "Roboto-Bold", Arial, Helvetica, sans-serif;
         svg {
-            margin-left: 0.25rem;
+            margin-left: 0.5rem;
         }
         .trip_type {
             margin-right: 0.5rem;
+            .trip_type_choice {
+                z-index: 1;
+                margin-top: 0.5rem;
+                padding: 0.5rem;
+                width: 8rem;
+                box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+                border-radius: 7px;
+                background-color: white;
+                display: flex;
+                flex-direction: column;
+                .trip_type_checked {
+                    display: flex;
+                    min-width: 100%;
+                    margin-top: 0.5rem;
+                    margin-bottom: 0.5rem;
+                    align-items: center;
+                    svg {
+                        width: 15%;
+                        margin-right: 0.5rem;
+                        visibility: visible;
+                    }
+                    span {
+                        width: 60%;
+                        font-size: 16px;
+                        font-family: "Roboto-Bold";
+                    }
+                }
+                .trip_type_unchecked {
+                    display: flex;
+                    min-width: 100%;
+                    margin-top: 0.5rem;
+                    margin-bottom: 0.5rem;
+                    align-items: center;
+                    svg {
+                        width: 15%;
+                        margin-right: 0.5rem;
+                        visibility: hidden;
+                    }
+                    span {
+                        width: 60%;
+                        font-size: 16px;
+                        font-family: "Roboto-Regular";
+                    }
+                }
+            }
+        }
+        .passengers_details {
+            display: flex;
+            justify-content: space-between;
+            &:hover {
+                cursor: pointer;
+            }
+            svg {
+                margin-right: 0.5rem;
+            }
+            .passengers_count {
+                margin-right: 0.75rem;
+            }
         }
     }
     .container {
@@ -263,9 +483,166 @@ nav {
     }
 }
 
+
+
+
+
+
 // TABLET MEDIA QUERIES
 
 @media (min-width: 768px) {
+
+    .passengers_discount_selection_container {
+        z-index: 3;
+        position: absolute;
+        top: 0%;
+        background-color: rgba(0, 0, 0, 0.3);
+        height: 100vh;
+        width: 100vw;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        .passengers_discount_selection {
+            width: 70%;
+            height: 50%;
+            background-color: white;
+            display: flex;
+            flex-direction: column;
+            border-radius: 7.5px;
+            .passengers_title {
+                width: 100%;
+                height: 16.66%;
+                display: flex;
+                justify-content: space-between;
+                border-bottom: 0.1rem solid $input_background_color;
+                align-items: center;
+                span {
+                    margin-left: 1rem;
+                    font-size: 16px;
+                    font-family: "Roboto-Bold";
+                    color: $input_active_color;
+                }
+                svg {
+                    margin-right: 1rem;
+                }
+            }
+            .person_container {
+                width: 100%;
+                height: 16.66%;
+                display: flex;
+                justify-content: space-between;
+                border-bottom: 0.1rem solid $input_background_color;
+                align-items: center;
+                .person_details {
+                    display: flex;
+                    flex-direction: column;
+                    margin-left: 1rem;
+                    .name {
+                        font-size: 16px;
+                        font-family: "Roboto-Bold";
+                        color: $input_active_color;
+                    }
+                    .age_range {
+                        font-size: 13px;
+                        font-family: "Roboto-Regular";
+                        color: $input_placeholder_color;
+                    }
+                }
+                .count {
+                    display: flex;
+                    margin-right: 1rem;
+                    justify-content: space-between;
+                    width: 20%;
+                    span {
+                        font-size: 16px;
+                        font-family: "Roboto-Regular";
+                    }
+                }
+            }
+            .discount_container {
+                width: 100%;
+                height: 16.66%;
+                display: flex;
+                justify-content: space-between;
+                border-bottom: 0.1rem solid $input_background_color;
+                margin-top: 1rem;
+                .discount_card {
+                    align-items: center;
+                    margin-left: 1rem;
+                    svg {
+                        margin-right: 0.8rem;
+                        color: $input_active_color;
+                    }
+                }
+                .enabled {
+                    transition: all 150ms ease;
+                    background-color: $toggle_background !important;
+                    min-width: 2rem;
+                    min-height: 1.25rem;
+                    max-height: 1.25rem;
+                    border-radius: 100px;
+                    display: flex;
+                    align-items: center;
+                    margin-right: 1rem;
+                    justify-content: right !important;
+                    .toggle_circle {
+                        transition: all 150ms ease;
+                        margin-left: 0.2rem;
+                        margin-right: 0.2rem;
+                        min-width: 0.8rem;
+                        min-height: 0.8rem;
+                        border-radius: 100px;
+                        background-color: white;
+                    }
+                }
+                .toggle_button {
+                    transition: all 150ms ease;
+                    background-color: $input_placeholder_color;
+                    min-width: 2rem;
+                    min-height: 1.25rem;
+                    max-height: 1.25rem;
+                    border-radius: 100px;
+                    display: flex;
+                    align-items: center;
+                    margin-right: 1rem;
+                    justify-content: left;
+                    .toggle_circle {
+                        transition: all 150ms ease;
+                        margin-left: 0.2rem;
+                        margin-right: 0.2rem;
+                        min-width: 0.8rem;
+                        min-height: 0.8rem;
+                        border-radius: 100px;
+                        background-color: white;
+                    }
+                }
+            }
+            .confirm {
+                height: 16.66%;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                button {
+                    background-color: $button_color;
+                    height: 80%;
+                    width: 90%;
+                    color: white;
+                    font-family: "Roboto-Bold";
+                    border: none;
+                    border-radius: 7.5px;
+                    transition: all 250ms ease;
+                    &:hover {
+                        background-color: lighten($button_color, $amount: 5);
+                        cursor: pointer;
+                    }
+                }
+            }
+        }
+    }
+
     nav {
         position: absolute;
         top: 10%;
