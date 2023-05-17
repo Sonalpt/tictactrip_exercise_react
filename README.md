@@ -18,6 +18,8 @@ Donc après avoir testé Tailwind, j'ai désinstallé et tout refait à la main.
 Je ne saurai trop comment décrire les difficultés, car la principale était simplement mon manque de concentration et que je partais dans la lune toutes les 20 min
 car je monologuais pour me préparer à un eventuel entretien avec vous, ou simplement monologuer sur la meilleure façon de rendre telle ou telle propriété.
 
+Quoi que, la gestion des listes sous les input et de comment mettre les input à jour, plus la gestion clavier ET surtout de capter qu'il fallait utiliser la propriété "unique_name" pour trouver les 5 villes les plus populaires par rapport à une ville donnée, ça c'était très intéressant.
+
 J'étais donc frustré du temps que je prenais, mais franchement ... MERCI BEAUCOUP POUR CET EXERCICE. C'est tout ce que j'aime dans le front, en plus ça m'a donné
 l'occasion d'utiliser useRef que je n'avais jamais trop tâté jusqu'à maintenant, et j'ai testé d'autres petites choses, un vrai régal.
 
