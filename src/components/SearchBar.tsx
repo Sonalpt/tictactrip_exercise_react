@@ -144,7 +144,6 @@ export const SearchBar: React.FC = () => {
   }
 
   // Les fonctions pour gérer les input onchange
-
   const handleTypingInTripFromInput = () => {
     if (inputTripFromRef.current) {
       setSelectedTripFrom(inputTripFromRef.current.value);
@@ -203,7 +202,6 @@ export const SearchBar: React.FC = () => {
   };
 
   // Le useEffect qui va chercher la liste des villes les plus populaires
-
   useEffect(() => {
     axios
       .get("https://api.comparatrip.eu/cities/popular/5")
@@ -278,6 +276,8 @@ export const SearchBar: React.FC = () => {
 
   return (
     <>
+    {/* L'enorme div qui contient les paramètres des passagés */}
+
     {isPassengersDetailsDisplayed ? (<div className="passengers_discount_selection_container">
             <div className="passengers_discount_selection">
               <div className="passengers_title">
@@ -331,6 +331,9 @@ export const SearchBar: React.FC = () => {
               </div>
             </div>
           </div>) : null}
+          
+
+          {/* Notre fameuse nav bar */}
           <nav>
           <div className='trip_details'>
             <div className='trip_type'>
