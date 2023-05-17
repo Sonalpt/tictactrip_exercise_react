@@ -55,6 +55,7 @@ export const SearchBar: React.FC = () => {
   const [popularList, setPopularList] = React.useState<PopularCity[]>([]);
   const [autocompletionList, setAutocompletionList] = React.useState<AutocompletionCity[]>([]);
   const [popularListFromCity, setPopularListFromCity] = React.useState<PopularCityFromSomewhere[]>([]);
+  const [tripFromToSearch, setTripFromToSearch] = React.useState<string>("");
 
   // les states des textes des deux inputs
   const [selectedTripFrom, setSelectedTripFrom] = React.useState<string>("");
@@ -132,7 +133,7 @@ export const SearchBar: React.FC = () => {
      setIsTripToFocused(true)
     if (selectedTripFrom != "") {
       axios
-      .get(`https://api.comparatrip.eu/cities/popular/from/${selectedTripFrom}/5`)
+      .get(`https://api.comparatrip.eu/cities/popular/from/${tripFromToSearch}/5`)
       .then((response: AxiosResponse<any>) => {
         setPopularListFromCity(response.data);
       })
@@ -193,8 +194,9 @@ export const SearchBar: React.FC = () => {
 
 
   // Les fonctions qui gèrent l'ajout du texte des listes dans les input
-  const handleListItemTripFromClick = (text: string) => {
-    setSelectedTripFrom(text)
+  const handleListItemTripFromClick = (text: string, citySearch: string) => {
+    setSelectedTripFrom(text);
+    setTripFromToSearch(citySearch);
   };
   const handleListItemTripToClick = (text: string) => {
     setSelectedTripTo(text)
@@ -228,6 +230,7 @@ export const SearchBar: React.FC = () => {
         if (selectedListItemIndex >= 0 && selectedListItemIndex < popularList.length) {
           const selectedCity = popularList[selectedListItemIndex];
           setSelectedTripFrom(selectedCity.local_name);
+          setTripFromToSearch(selectedCity.unique_name)
           setSelectedListItemIndex(-1);
         }
       }
@@ -369,13 +372,13 @@ export const SearchBar: React.FC = () => {
           <div className='list_trip' style={listTripFromStyle}>
             <ul>
               {autocompletionList.length > 0 ? (autocompletionList.map((city, index) => (
-                <li key={index} onClick={() => handleListItemTripFromClick(city.local_name)}
+                <li key={index} onClick={() => handleListItemTripFromClick(city.local_name, city.unique_name)}
                 className={selectedListItemIndex === index ? 'selected' : ''} >
                   <FontAwesomeIcon icon={faLocationDot} />
                   <span>{city.local_name}</span>
                   </li>
               ))) : popularList.map((city, index) => (
-                <li key={index} onClick={() => handleListItemTripFromClick(city.local_name)}
+                <li key={index} onClick={() => handleListItemTripFromClick(city.local_name, city.unique_name)}
                 className={selectedListItemIndex === index ? 'selected' : ''} >
                   <FontAwesomeIcon icon={faLocationDot} />
                   <span>{city.local_name}</span>
