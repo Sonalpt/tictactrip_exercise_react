@@ -278,7 +278,7 @@ export const SearchBar: React.FC = () => {
     <>
     {/* L'enorme div qui contient les paramètres des passagés */}
 
-    {isPassengersDetailsDisplayed ? (<div className="passengers_discount_selection_container">
+    {isPassengersDetailsDisplayed ? (<div data-testid="passengers_discount_selection_container" className="passengers_discount_selection_container">
             <div className="passengers_discount_selection">
               <div className="passengers_title">
                 <span>Passengers</span>
@@ -327,7 +327,7 @@ export const SearchBar: React.FC = () => {
                 </div>
               </div>
               <div className="confirm">
-                <button onClick={() => {setIsPassengersDetailsDisplayed(false)}}>Confirm</button>
+                <button data-testid="passengers-discount-confirm" onClick={() => {setIsPassengersDetailsDisplayed(false)}}>Confirm</button>
               </div>
             </div>
           </div>) : null}
@@ -338,8 +338,8 @@ export const SearchBar: React.FC = () => {
           <div className='trip_details'>
             <div className='trip_type'>
               <span ref={onewayRef} onClick={() => {isTripTypeDisplayed ? setIsTripTypeDisplayed(false) : setIsTripTypeDisplayed(true)}}>{tripTypechecked == 1 ? "One-way" : "Round trip"}</span>
-              <FontAwesomeIcon icon={isTripTypeDisplayed ? faChevronUp : faChevronDown} onClick={() => {isTripTypeDisplayed ? setIsTripTypeDisplayed(false) : setIsTripTypeDisplayed(true)}} />
-              {isTripTypeDisplayed ? (<div className="trip_type_choice" style={tripdetailsStyle}>
+              <FontAwesomeIcon data-testid="trip-type-accordion" icon={isTripTypeDisplayed ? faChevronUp : faChevronDown} onClick={() => {isTripTypeDisplayed ? setIsTripTypeDisplayed(false) : setIsTripTypeDisplayed(true)}} />
+              {isTripTypeDisplayed ? (<div data-testid="trip-type-div" className="trip_type_choice" style={tripdetailsStyle}>
                 <div className={tripTypechecked == 1 ? "trip_type_checked" : "trip_type_unchecked"}
                 onClick={() => {tripTypechecked == 1 ? setTripTypeChecked(2) : setTripTypeChecked(1)}} >
                   <FontAwesomeIcon icon={faCheck} />
@@ -352,7 +352,7 @@ export const SearchBar: React.FC = () => {
                 </div>
               </div>) : null}
             </div>
-            <div className='passengers_details'>
+            <div data-testid="passengers-infos" onClick={() => {setIsPassengersDetailsDisplayed(true)}} className='passengers_details'>
               <div className="passengers_count" onClick={() => {setIsPassengersDetailsDisplayed(true)}}>
                 <FontAwesomeIcon icon={faUser} />
                 <span>{totalPassagers}</span>
