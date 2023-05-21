@@ -2,6 +2,8 @@ import {describe, expect, test} from 'vitest';
 import {fireEvent, render, screen} from '@testing-library/react';
 import { SearchBar } from './SearchBar';
 
+// INITIAL RENDERING TESTS (WITHOUT INPUT AND LISTS)
+
 describe("SearchBar simple rendering tests", () => {
     test("should show the component all the time", () => {
         render(<SearchBar />);
@@ -45,7 +47,12 @@ describe("SearchBar simple rendering tests", () => {
     })
 })
 
+
+// PASSENGERS AND DISCOUNT TEST
+
+
 describe("passengers and discount tests", () => {
+
     test("add 1 discount card after clicking on the discound card toggle", async () => {
         render(<SearchBar />);
         const passengersInfos = screen.getByTestId("passengers-infos");
@@ -68,5 +75,55 @@ describe("passengers and discount tests", () => {
         
 
         expect(discountCount.textContent).toBe('0');
+    })
+
+    test("every passengers counters are working and well displayed", async () => {
+        render(<SearchBar />);
+        const passengersInfos = screen.getByTestId("passengers-infos");
+        fireEvent.click(passengersInfos);
+        const totalPassengersCount = screen.getByTestId("total-passengers-count");
+        const adultsCount = screen.getByTestId("adults-count");
+        const adultsPlusButton = screen.getByTestId("adults-plus-button");
+        const youthCount = screen.getByTestId("youth-count");
+        const youthPlusButton = screen.getByTestId("youth-plus-button");
+        const seniorsCount = screen.getByTestId("seniors-count");
+        const seniorsPlusButton = screen.getByTestId("seniors-plus-button");
+        const seniorsMinusButton = screen.getByTestId("seniors-minus-button");
+
+        fireEvent.click(adultsPlusButton);
+        fireEvent.click(adultsPlusButton);
+        fireEvent.click(adultsPlusButton);
+        fireEvent.click(youthPlusButton);
+        fireEvent.click(seniorsPlusButton);
+        fireEvent.click(seniorsPlusButton);
+        fireEvent.click(seniorsMinusButton);
+
+        expect(adultsCount.textContent).toBe('3');
+        expect(youthCount.textContent).toBe('1');
+        expect(seniorsCount.textContent).toBe('1');
+        expect(totalPassengersCount.textContent).toBe('5');
+    })
+
+    test("click on minus button when the count is already 0", async () => {
+        render(<SearchBar />);
+        const passengersInfos = screen.getByTestId("passengers-infos");
+        fireEvent.click(passengersInfos);
+        const totalPassengersCount = screen.getByTestId("total-passengers-count");
+        const adultsCount = screen.getByTestId("adults-count");
+        const adultsMinusButton = screen.getByTestId("adults-minus-button");
+        const youthCount = screen.getByTestId("youth-count");
+        const youthMinusButton = screen.getByTestId("youth-minus-button");
+        const seniorsCount = screen.getByTestId("seniors-count");
+        const seniorsMinusButton = screen.getByTestId("seniors-minus-button");
+
+        
+        fireEvent.click(adultsMinusButton);
+        fireEvent.click(youthMinusButton);
+        fireEvent.click(seniorsMinusButton);
+
+        expect(adultsCount.textContent).toBe('0');
+        expect(youthCount.textContent).toBe('0');
+        expect(seniorsCount.textContent).toBe('0');
+        expect(totalPassengersCount.textContent).toBe('0');
     })
 })
