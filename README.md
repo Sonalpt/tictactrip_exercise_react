@@ -29,9 +29,11 @@ Dimanche 4H( 1h de bug visual studio et nouvelle version de typescript, 1h de ta
 Lundi 6-7h ( j'ai un doute, j'ai fait une pause dans le chrono à un moment donné)
 Mardi 5h ( les heures de lundi c'était structuration et CSS, puis ce mardi c'était fignolage du CSS et mise en place de l'API)
 
+## L'écriture des tests est en cours
+
 Les tests. Une semaine avant la réception de votre exercice, je commençais à me documenter sur les test (jest, vitest, react testing library, et cypress pour le DOM qui marche mieux que jsdom). mais je n'avais pas eu le temps de m'échauffer dessus. Et j'avais déjà perdu tellement de temps sur le reste du projet que je me suis dit, écoute, même si ce n'est pas complet, qu'ils te prennent ou non, on va pouvoir discuter, donc discuter des tests avec de vrais pros, et ça, ben c'est benef.
 
-Je n'ai donc pas écris les tests.
+Je n'ai donc pas écris les tests. (UOPDATE : J'écris actuellement les tests et j'apprends donc vitest, jest, react-testing-library)
 
 J'ai pris soin de commenter tous les states et toutes les fonctiosn pour que l'on sache bien qui fait quoi. Au départ je voulais faire des customHooks mais je me suis dit
 que le projet n'était pas si grand que ça, je ne savais pas si ça en valait la peine. Et puis vu tous les appels de states que je fais dans mon tsx, je me suis dit ue les avoir
