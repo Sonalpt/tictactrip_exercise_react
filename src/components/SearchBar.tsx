@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faCircleDot, faChevronDown, faChevronUp, faArrowsUpDown, faLocationDot, faCalendar, faUser, faPercent, faCheck, faXmark, faPlusCircle, faMinusCircle } from '@fortawesome/free-solid-svg-icons';
 
 export const SearchBar: React.FC = () => {
+  
 
   // Les interfaces pour les 3 API
 
@@ -322,7 +323,7 @@ export const SearchBar: React.FC = () => {
                   <FontAwesomeIcon icon={faPercent} />
                   <span>Add discount card</span>
                 </div>
-                <div className={discount ? "enabled" : "toggle_button"} onClick={() => {discount ? setDiscount(0) : setDiscount(1)}}>
+                <div data-testid="discount-toggle-button" className={discount ? "enabled" : "toggle_button"} onClick={() => {discount ? setDiscount(0) : setDiscount(1)}}>
                   <div className="toggle_circle"></div>
                 </div>
               </div>
@@ -359,7 +360,7 @@ export const SearchBar: React.FC = () => {
               </div>
               <div className="discount_count" onClick={() => {setIsPassengersDetailsDisplayed(true)}}>
                 <FontAwesomeIcon icon={faPercent} />
-                <span>{discount}</span>
+                <span data-testid="discount-count">{discount}</span>
               </div>
             </div>
           </div>

@@ -2,7 +2,7 @@ import {describe, expect, test} from 'vitest';
 import {fireEvent, render, screen} from '@testing-library/react';
 import { SearchBar } from './SearchBar';
 
-describe("SearchBar test", () => {
+describe("SearchBar simple rendering tests", () => {
     test("should show the component all the time", () => {
         render(<SearchBar />);
 
@@ -43,4 +43,30 @@ describe("SearchBar test", () => {
 
         expect(await screen.queryByTestId("passengers_discount_selection_container")).toBeNull();
     })
-} )
+})
+
+describe("passengers and discount tests", () => {
+    test("add 1 discount card after clicking on the discound card toggle", async () => {
+        render(<SearchBar />);
+        const passengersInfos = screen.getByTestId("passengers-infos");
+        fireEvent.click(passengersInfos);
+        const discountToggle = screen.getByTestId("discount-toggle-button");
+        const discountCount = screen.getByTestId("discount-count");
+        fireEvent.click(discountToggle);
+
+        expect(discountCount.textContent).toBe('1');
+    })
+
+    test("remove discount card after clicking on the discound card toggle if discount card already has 1", async () => {
+        render(<SearchBar />);
+        const passengersInfos = screen.getByTestId("passengers-infos");
+        fireEvent.click(passengersInfos);
+        const discountToggle = screen.getByTestId("discount-toggle-button");
+        const discountCount = screen.getByTestId("discount-count");
+        fireEvent.click(discountToggle);
+        fireEvent.click(discountToggle);
+        
+
+        expect(discountCount.textContent).toBe('0');
+    })
+})
