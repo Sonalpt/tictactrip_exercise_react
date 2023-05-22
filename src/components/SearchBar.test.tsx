@@ -127,3 +127,14 @@ describe("passengers and discount tests", () => {
         expect(totalPassengersCount.textContent).toBe('0');
     })
 })
+
+// INPUTS, LISTS AND API TESTS 
+
+// describe("inputs, lists and API tests", () => {
+//     test("testing handleTripFromFocus function when input is focused", () => {
+//         render(<SearchBar />);
+//         const tripFromInput = screen.getByTestId("trip-from-input");
+//         fireEvent.focus(tripFromInput);
+
+//     })
+// })

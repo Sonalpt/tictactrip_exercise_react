@@ -218,7 +218,7 @@ export const SearchBar: React.FC = () => {
 
   // les fonctions pour gérer la navigation par clavier pour les listes
   const handleKeyDown = (event: React.KeyboardEvent) => {
-    if (isTripFromFocused) {
+    if (isTripFromFocused && selectedTripFrom == "") {
       if (event.key === 'ArrowDown') {
         event.preventDefault();
         setSelectedListItemIndex((prevIndex) => Math.min(prevIndex + 1, popularList.length - 1));
@@ -228,6 +228,22 @@ export const SearchBar: React.FC = () => {
       } else if (event.key === 'Enter') {
         if (selectedListItemIndex >= 0 && selectedListItemIndex < popularList.length) {
           const selectedCity = popularList[selectedListItemIndex];
+          setSelectedTripFrom(selectedCity.local_name);
+          setTripFromToSearch(selectedCity.unique_name)
+          setSelectedListItemIndex(-1);
+        }
+      }
+    }
+    if (isTripFromFocused && selectedTripFrom !== "") {
+      if (event.key === 'ArrowDown') {
+        event.preventDefault();
+        setSelectedListItemIndex((prevIndex) => Math.min(prevIndex + 1, autocompletionList.length - 1));
+      } else if (event.key === 'ArrowUp') {
+        event.preventDefault();
+        setSelectedListItemIndex((prevIndex) => Math.max(prevIndex - 1, -1));
+      } else if (event.key === 'Enter') {
+        if (selectedListItemIndex >= 0 && selectedListItemIndex < autocompletionList.length) {
+          const selectedCity = autocompletionList[selectedListItemIndex];
           setSelectedTripFrom(selectedCity.local_name);
           setTripFromToSearch(selectedCity.unique_name)
           setSelectedListItemIndex(-1);
@@ -367,7 +383,7 @@ export const SearchBar: React.FC = () => {
         <div className='container'>
           <div className='trip_from'>
             <FontAwesomeIcon icon={faCircleDot} />
-            <input type="text" placeholder='From: City, Station Or Airport' ref={inputTripFromRef} 
+            <input data-testid="trip-from-input" type="text" placeholder='From: City, Station Or Airport' ref={inputTripFromRef} 
             onFocus={handleTripFromFocus} onBlur={handleTripFromFocus} 
             onInput={handleTypingInTripFromInput} onChange={handleInputTripFromChange} 
             onKeyDown={handleKeyDown} value={selectedTripFrom} />
@@ -394,11 +410,11 @@ export const SearchBar: React.FC = () => {
           </div>
           <div className="trip_to">
             <FontAwesomeIcon icon={faLocationDot} />
-            <input type="text" placeholder='To: City, Station Or Airport' ref={inputTripToRef} onFocus={handleTripToFocus} onBlur={handleTripToFocus} 
+            <input data-testid="trip-to-input" type="text" placeholder='To: City, Station Or Airport' ref={inputTripToRef} onFocus={handleTripToFocus} onBlur={handleTripToFocus} 
             onChange={handleInputTripToChange} onInput={handleTypingInTripToInput} 
             onKeyDown={handleKeyDown} value={selectedTripTo}/>
             {isTripToFocused && (
-          <div className='list_trip' style={listTripToStyle}>
+          <div data-testid="trip-list" className='list_trip' style={listTripToStyle}>
             <ul>
               {popularListFromCity.length > 0 ? (popularListFromCity.map((city, index) => (
                 <li key={index} onClick={() => handleListItemTripToClick(city.local_name)}
@@ -431,7 +447,7 @@ export const SearchBar: React.FC = () => {
           <button>Search</button>
         </div>
         <div className="toggle_accomodation">
-            <div className={isEnabled ? "toggle_button enabled" : "toggle_button"} 
+            <div data-testid="accomodation-toggle-button" className={isEnabled ? "toggle_button enabled" : "toggle_button"} 
               onClick={() => {isEnabled ? setIsEnabled(false) : setIsEnabled(true)}}>
               <div className="toggle_circle"></div>
             </div>
